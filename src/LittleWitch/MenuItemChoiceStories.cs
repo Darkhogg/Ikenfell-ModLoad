@@ -4,28 +4,28 @@ using GameEngine;
 
 namespace LittleWitch
 {
-    public class MenuItemChoiceMods : MenuItemPrefix {
+    public class MenuItemChoiceStories : MenuItemPrefix {
         private TextRenderer labelName;
         private TextRenderer labelVersion;
 
         private TextRenderer leftArrow;
         private TextRenderer rightArrow;
 
-        public ModInfo Choice {
+        public StoryInfo Choice {
             get;
             private set;
         }
 
         private int choiceIndex;
 
-        private List<ModInfo> Mods;
+        private List<StoryInfo> Stories;
 
         public event Action OnChange;
 
-        public MenuItemChoiceMods(string prefix, Vector pos, List<ModInfo> mods)
+        public MenuItemChoiceStories(string prefix, Vector pos, List<StoryInfo> stories)
             : base(prefix, pos)
         {
-            Mods = mods;
+            Stories = stories;
             
             labelName = AddComponent(new TextRenderer(Game.MedFont, "", TextAlign.Left, MenuItem.Purple, float.MaxValue, 4f, 0f));
             labelName.Shadow = ColorF.Black;
@@ -46,16 +46,16 @@ namespace LittleWitch
             var _this = this;
             OnLeft += delegate {
                 MenuFx.Back.Play();
-                _this.SetChoice(_this.choiceIndex > 0 ? _this.choiceIndex - 1 : mods.Count);
+                _this.SetChoice(_this.choiceIndex > 0 ? _this.choiceIndex - 1 : stories.Count);
             };
             OnRight += delegate {
                 MenuFx.Accept.Play();
-                _this.SetChoice(_this.choiceIndex < mods.Count ? _this.choiceIndex + 1 : 0);
+                _this.SetChoice(_this.choiceIndex < stories.Count ? _this.choiceIndex + 1 : 0);
             };
         }
 
-        private void SetChoice (int index, ModInfo modInfo) {
-            Choice = modInfo;
+        private void SetChoice (int index, StoryInfo storyInfo) {
+            Choice = storyInfo;
             choiceIndex = index;
 
             Update();
@@ -63,11 +63,11 @@ namespace LittleWitch
         }
 
         public void SetChoice(int choice) {
-            SetChoice(choice, choice == 0 ? null : Mods[choice - 1]);
+            SetChoice(choice, choice == 0 ? null : Stories[choice - 1]);
         }
 
         public void SetChoice(string id) {
-            var index = Mods.FindIndex(mi => mi.ID.Equals(id));
+            var index = Stories.FindIndex(mi => mi.ID.Equals(id));
             SetChoice(index + 1);
         }
 

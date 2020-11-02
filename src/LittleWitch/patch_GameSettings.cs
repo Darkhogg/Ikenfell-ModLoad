@@ -8,15 +8,18 @@ using GameEngine;
 namespace LittleWitch {
 
     class patch_GameSettings {
-        public static string ModId;
+        private static string StorySettingName = "story";
+
+        public static string StoryId;
 
         public static extern StringBuilder orig_SaveToBuilder();
 
         public static StringBuilder SaveToBuilder () {
             StringBuilder builder = orig_SaveToBuilder();
-            if (ModId != null) {
-                builder.Append("mod_id=");
-                builder.AppendLine(ModId);
+            if (StoryId != null) {
+                builder.Append(StorySettingName);
+                builder.Append("=");
+                builder.AppendLine(StoryId);
             }
             return builder;
         }
@@ -37,8 +40,8 @@ namespace LittleWitch {
             }
 
             // new settings
-            if (dict.ContainsKey("mod_id")) {
-		        ModId = (dict["mod_id"] == "" ? null : dict["mod_id"].Trim());
+            if (dict.ContainsKey(StorySettingName)) {
+		        StoryId = (dict[StorySettingName] == "" ? null : dict[StorySettingName].Trim());
             }
         }
 

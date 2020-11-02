@@ -35,16 +35,16 @@ namespace LittleWitch {
             OnLoad += delegate {
                 var returnItem = menu.Get(menu.Count - 1);
                 
-                var mods = ModUtils.ListMods();
+                var stories = StoryUtils.ListStories();
 
-                var modItem = menu.Insert(
+                var storyItem = menu.Insert(
                     menu.Count - 1,
-                    new MenuItemChoiceMods("Mod", new Vector(120f, returnItem.Transform.Y), mods),
-                    "Which Mod to use. Requires restart."
+                    new MenuItemChoiceStories("Story", new Vector(120f, returnItem.Transform.Y), stories),
+                    "Which Story to play. Requires restart."
                 );
-                modItem.SetChoice(patch_GameSettings.ModId);
-                modItem.OnChange += delegate {
-                    patch_GameSettings.ModId = (modItem.Choice == null) ? null : modItem.Choice.ID;
+                storyItem.SetChoice(patch_GameSettings.StoryId);
+                storyItem.OnChange += delegate {
+                    patch_GameSettings.StoryId = (storyItem.Choice == null) ? null : storyItem.Choice.ID;
                 };
 
                 returnItem.Transform.Y += 16f;

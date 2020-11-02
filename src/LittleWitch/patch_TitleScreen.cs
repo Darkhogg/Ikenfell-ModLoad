@@ -9,9 +9,6 @@ namespace LittleWitch {
     class patch_TitleScreen : TitleScreen {
 
         [MonoModIgnore]
-        private TextRenderer versionText;
-
-        [MonoModIgnore]
         private patch_MenuController menuItems;
 
         public extern void orig_ctor();
@@ -26,12 +23,12 @@ namespace LittleWitch {
         private extern IEnumerator orig_Startup();
 
         private IEnumerator Startup() {
-            var mod = ((patch_Game) Engine).Mod;
-            if (mod != null) {
-                var modName = AddComponent(new TextRenderer(Game.MedFont, mod.Name + "  v" + mod.Version, TextAlign.Right, 0x59419cff));
-                modName.Offset = new Vector(239f, 5f);
-                modName.SetShadow(ColorF.Black);
-                modName.SetTags(GameTags.UI);
+            var story = ((patch_Game) Engine).Story;
+            if (story != null) {
+                var storyName = AddComponent(new TextRenderer(Game.MedFont, story.Name + "  v" + story.Version, TextAlign.Right, 0x59419cff));
+                storyName.Offset = new Vector(239f, 5f);
+                storyName.SetShadow(ColorF.Black);
+                storyName.SetTags(GameTags.UI);
             }
 
             yield return orig_Startup();
@@ -40,10 +37,10 @@ namespace LittleWitch {
         private extern void orig_CreateMenuItems ();
         private void CreateMenuItems () {
             orig_CreateMenuItems();
-            var mod = ((patch_Game) Engine).Mod;
+            var story = ((patch_Game) Engine).Story;
 
-            var modId = (mod == null) ? null : mod.ID;
-            if (modId != patch_GameSettings.ModId) {
+            var storyId = (story == null) ? null : story.ID;
+            if (storyId != patch_GameSettings.StoryId) {
                 var item = (MenuItemLabel) menuItems.Remove(0);
                 item.Label.Text = "(Needs Restart)";
             }

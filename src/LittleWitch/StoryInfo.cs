@@ -4,7 +4,7 @@ using GameEngine;
 
 namespace LittleWitch
 {
-    public class ModInfo {
+    public class StoryInfo {
         public string ID {
             get;
             private set;
@@ -20,7 +20,7 @@ namespace LittleWitch
             private set;
         }
 
-        public ModInfo (string id, string name, string version) {
+        public StoryInfo (string id, string name, string version) {
             ID = id;
             Name = name;
             Version = version;
